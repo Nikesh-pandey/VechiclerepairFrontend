@@ -4,6 +4,26 @@ export const getToken = () => {
   return localStorage.getItem("token");
 };
 
+export const isAuthenticated = () => {
+  const token = getToken();
+
+  if (!token) {
+    return false;
+  }
+
+  const decoded = getDecodedToken();
+
+  if (!decoded) {
+    return false;
+  }
+
+  if (decoded.exp && decoded.exp * 1000 <= Date.now()) {
+    return false;
+  }
+
+  return true;
+};
+
 export const getDecodedToken = () => {
   const token = getToken();
 
@@ -68,4 +88,5 @@ export const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("role");
   localStorage.removeItem("user");
+  localStorage.removeItem("operatorCustomerResponses");
 };

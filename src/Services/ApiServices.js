@@ -22,7 +22,6 @@ const getErrorResult = (err, fallbackMessage) => ({
 });
 
 export const ApiService = {
-  // ================= AUTH =================
 
   register: async (data) => {
     try {
@@ -37,20 +36,25 @@ export const ApiService = {
     }
   },
 
-  login: async (data) => {
+login: async (data) => {
     try {
       const res = await getAxiosInstance(false).post(
         endpoints.login,
         data
       );
+      
+  
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        console.log("Token saved:", res.data.token);
+      }
+      
       return res.data;
     } catch (err) {
       console.error("Login Error:", err);
       return getErrorResult(err, "Login failed.");
     }
-  },
-
-  // ================= OPERATOR =================
+},
 
   registerOperator: async (formData) => {
     try {
@@ -80,7 +84,6 @@ export const ApiService = {
     }
   },
 
-  // ================= ADMIN =================
 
   getOperatorData: async () => {
     try {
@@ -108,6 +111,7 @@ export const ApiService = {
   },
 
 
+
   findGarage: async (data) => {
     try {
       const res = await getAxiosInstance().post(
@@ -121,22 +125,67 @@ export const ApiService = {
     }
   },
 
-customerConfirmRequest: async (id, data) => {
+customerConfirmRequest: async (garageId, data) => {
   try {
     const res = await getAxiosInstance().post(
-      endpoints.customerConfirmRequest(id),
+      endpoints.customerConfirmRequest(garageId), 
       data
     );
-
     return res.data;
   } catch (err) {
     console.log("Error occurred in confirmRequest", err);
     return {
       error: true,
-      message: err.response?.data?.message || err.response?.data || "Failed in confirmRequest",
+      message: err.response?.data?.message || "Failed",
       status: err.response?.status,
     };
   }
 },
+
+getOperatorResponse: async () => {
+  try {
+    const res = await getAxiosInstance().get(endpoints.customerOperatorResponse);
+    return res.data;
+  } catch (err) {
+    console.log("Customer Operator Response Error:", err.response?.status);
+    console.log("Customer Operator Response Data:", err.response?.data);
+    console.log("Customer Operator Response Message:", err.message);
+    return getErrorResult(err, "Failed to load operator responses.");
+  }
+},
+
+customerRequest: async () => {
+  try {
+    const res = await getAxiosInstance().get(endpoints.customerRequest());
+    console.log("Response status:", res.status);
+    console.log("Response data:", res.data);
+    return res.data;
+  } catch (err) {
+    console.log("Error:", err.response?.status); 
+    console.log("Error message:", err.message);
+    return getErrorResult(err, "Failed to load customer requests.");
+  }
+},
+
+
+
+operatorResponseStatus: async (id, data) => {
+  try {
+    const res = await getAxiosInstance().patch(
+      endpoints.operatorResponseStatus(id),
+      data,
+      {
+        params: data,
+      }
+    );
+
+    return res.data;
+  } catch (err) {
+    console.log("Operator Response Status Error:", err.response?.status);
+    console.log("Operator Response Status Data:", err.response?.data);
+    console.log("Operator Response Status Message:", err.message);
+    return getErrorResult(err, "Failed to update customer request status.");
+  }
+}
 
 };

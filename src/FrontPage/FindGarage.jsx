@@ -247,8 +247,12 @@ export default function FindGarage() {
 
   const getGarageName = (garage, index) => {
     return (
+      garage.shopName ||
+      garage.operator?.shopName ||
       garage.garageName ||
+      garage.operator?.garageName ||
       garage.operatorName ||
+      garage.operator?.operatorName ||
       garage.name ||
       garage.fullName ||
       `Operator ${index + 1}`
@@ -534,7 +538,9 @@ export default function FindGarage() {
                 <p className="mt-1 text-sm text-slate-400">
                   Sending request to{" "}
                   <span className="font-bold text-white">
-                    {selectedGarage.operatorName ||
+                    {selectedGarage.shopName ||
+                      selectedGarage.operator?.shopName ||
+                      selectedGarage.operatorName ||
                       selectedGarage.garageName ||
                       selectedGarage.name ||
                       "Selected Garage"}

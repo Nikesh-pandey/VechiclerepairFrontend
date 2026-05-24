@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const stats = [
-    { label: "Registered Customers", value: "2,450", change: "+18%" },
-    { label: "Active Garages", value: "186", change: "+12%" },
-    { label: "Completed Services", value: "8,920", change: "+25%" },
-    { label: "Pending Requests", value: "74", change: "-6%" },
+    { label: "Registered Customers", value: "24", change: "+8%" },
+    { label: "Active Garages", value: "16", change: "+1%" },
+    { label: "Completed Services", value: "20", change: "+25%" },
+    { label: "Pending Requests", value: "14", change: "-2%" },
   ];
 
   const services = [
@@ -31,6 +31,8 @@ export default function Dashboard() {
       icon: "🛡️",
     },
   ];
+
+
 
   const roles = [
     {

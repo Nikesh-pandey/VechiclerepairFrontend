@@ -1,17 +1,20 @@
 export const endpoints = {
-  // AUTH
+  // Auth
   register: "/auth/register",
   login: "/auth/login",
 
-  // OPERATOR
+  // Operator
   operatorRegister: "/op/registerOperator",
   operatorUpdate: (id) => `/op/getUpdate/${id}`,
-
-  // ADMIN
+  customerRequest: () => "/op/getCustomerrequest",
+  operatorResponseStatus: (id) => `/op/responseStatus/${id}`,
+  
+  // Admin
   adminOperatorData: "/admin/operatorData",
   adminResponseToOperator: (id) => `/admin/responsetoOperator/${id}`,
 
-  // CUSTOMER
+  // Customer
   customerFindGarage: "/cu/find",
   customerConfirmRequest: (id) => `/cu/confirmRequest/${id}`,
+  customerOperatorResponse: "/cu/responsefromoperator",
 };
